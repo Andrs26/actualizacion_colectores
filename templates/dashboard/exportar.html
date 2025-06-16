@@ -1,0 +1,330 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <!-- iOS icon -->
+    <link rel="apple-touch-icon" sizes="76x76" href="{% static 'assets/img/apple-icon.png' %}">
+
+    <!-- Android/Chrome icons -->
+    <link rel="icon" type="image/png" sizes="192x192" href="{% static 'assets/img/android-chrome-192x192.png' %}">
+    <link rel="icon" type="image/png" sizes="512x512" href="{% static 'assets/img/android-chrome-512x512.png' %}">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="{% static 'assets/img/favicon.png' %}">
+  <title>
+    CCIT | Actualicación
+  </title>
+  <!--     Fonts and icons     -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+  <!-- Nucleo Icons -->
+  <link href="https://demos.creative-tim.com/argon-dashboard-pro/assets/css/nucleo-icons.css" rel="stylesheet" />
+  <link href="https://demos.creative-tim.com/argon-dashboard-pro/assets/css/nucleo-svg.css" rel="stylesheet" />
+  <!-- Font Awesome Icons -->
+  <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+  <!-- CSS Files -->
+  <link id="pagestyle" href="{% static 'assets/css/argon-dashboard.css' %}" rel="stylesheet" />
+</head>
+
+<body class="g-sidenav-show   bg-gray-100">
+  <div class="min-height-300 bg-dark position-absolute w-100"></div>
+  <aside class="sidenav bg-white navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-4 " id="sidenav-main">
+    <div class="sidenav-header">
+      <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
+      <a class="navbar-brand m-0" href=" https://demos.creative-tim.com/argon-dashboard/pages/dashboard.html " target="_blank">
+        <img src="{% static 'assets/img/logo.png' %}" width="26px" height="26px" class="navbar-brand-img h-100 rounded" alt="main_logo">
+        <span class="ms-1 font-weight-bold">CCIT</span>
+      </a>
+    </div>
+    <hr class="horizontal dark mt-0">
+    <div class="collapse navbar-collapse w-auto" id="sidenav-collapse-main">
+      <ul class="navbar-nav">
+        {% if request.user.is_authenticated %}
+          {% if is_admin %}
+            <li class="nav-item">
+          <a class="nav-link" href="{% url 'dashboard_home' %}">
+            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="ni ni-tv-2 text-dark text-sm opacity-10"></i>
+            </div>
+            <span class="nav-link-text ms-1">Dashboard</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'clientes_admin' %}">
+            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="ni ni-folder-17 text-dark text-sm opacity-10"></i>
+            </div>
+            <span class="nav-link-text ms-1">Clientes</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'exportar_home' %}">
+            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="ni ni-cloud-download-95 text-dark text-sm opacity-10"></i>
+            </div>
+            <span class="nav-link-text ms-1">Exportar Datos</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'importar_home' %}">
+            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="ni ni-cloud-upload-96 text-dark text-sm opacity-10"></i>
+            </div>
+            <span class="nav-link-text ms-1">Importar Datos</span>
+          </a>
+        </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/admin/">
+                <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                  <i class="ni ni-single-02 text-dark text-sm opacity-10"></i>
+                </div>
+                <span class="nav-link-text ms-1">Usuarios</span>
+              </a>
+            </li>
+          {% elif is_colector %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'asignacion_usuario' %}">
+                <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                  <i class="ni ni-folder-17 text-dark text-sm opacity-10"></i>
+                </div>
+                <span class="nav-link-text ms-1">Mis Asignaciones</span>
+              </a>
+            </li>
+          {% endif %}
+          <li class="nav-item mt-3">
+            <a class="nav-link" href="{% url 'logout' %}">
+              <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                <i class="ni ni-button-power text-danger text-sm opacity-10"></i>
+              </div>
+              <span class="nav-link-text ms-1">Cerrar sesión</span>
+            </a>
+          </li>
+        {% endif %}
+      </ul>
+    </div>
+  </aside>
+
+  <main class="main-content position-relative border-radius-lg ">
+    <!-- Navbar -->
+    <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl " id="navbarBlur" data-scroll="false">
+      <div class="container-fluid py-1 px-3">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+            <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white" href="javascript:;">Dashboard</a></li>
+            <li class="breadcrumb-item text-sm text-white active" aria-current="page">Exportar</li>
+          </ol>
+          <h6 class="font-weight-bolder text-white mb-0">Reportes</h6>
+        </nav>
+        <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
+          <div class="ms-md-auto pe-md-3 d-flex align-items-center">
+            <!-- <div class="input-group">
+              <span class="input-group-text text-body"><i class="fas fa-search" aria-hidden="true"></i></span>
+              <input type="text" class="form-control" placeholder="Buscar cliente...">
+            </div> -->
+          </div>
+          <ul class="navbar-nav  justify-content-end">
+            <li class="nav-item d-flex align-items-center">
+              <a href="javascript:;" class="nav-link text-white font-weight-bold px-0">
+                <i class="fa fa-user me-sm-1"></i>
+                <span class="d-sm-inline d-none">{{ request.user.first_name }} {{ request.user.last_name }}</span>
+              </a>
+            </li>
+            <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
+              <a href="javascript:;" class="nav-link text-white p-0" id="iconNavbarSidenav">
+                <div class="sidenav-toggler-inner">
+                  <i class="sidenav-toggler-line bg-white"></i>
+                  <i class="sidenav-toggler-line bg-white"></i>
+                  <i class="sidenav-toggler-line bg-white"></i>
+                </div>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!-- End Navbar -->
+
+    <div class="container-fluid py-4">
+      <div class="row">
+        <div class="col-12 mb-4">
+          <div class="card">
+            <div class="card-header pb-0">
+              <h6>Exportar Reportes</h6>
+              <p class="text-sm">Selecciona una opción para descargar el reporte en Excel.</p>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <!-- Card 1 -->
+                <div class="col-md-4 mb-3">
+                  <div class="card border shadow-sm">
+                    <div class="card-body text-center">
+                      <i class="ni ni-archive-2 text-lg text-secondary mb-2"></i>
+                      <h6 class="mb-1">Reporte General</h6>
+                      <p class="text-sm text-muted">Todos los datos incluyendo cliente, datos y contactos.</p>
+                      <button class="btn btn-sm btn-secondary" data-bs-toggle="modal" data-bs-target="#filtroModal">Exportar</button>
+                    </div>
+                  </div>
+                </div>
+                <!-- Más cards aquí si necesitas -->
+                <!-- Card 2 -->
+                <div class="col-md-4 mb-3">
+                  <div class="card border shadow-sm">
+                    <div class="card-body text-center">
+                      <i class="ni ni-single-copy-04 text-lg text-success mb-2"></i>
+                      <h6 class="mb-1">Clientes + Datos</h6>
+                      <p class="text-sm text-muted">Exporta clientes con datos.</p>
+                      <a href="{% url 'exportar_clientes_datos' %}" class="btn btn-sm btn-success">Exportar</a>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="col-md-4 mb-3">
+                  <div class="card border shadow-sm">
+                    <div class="card-body text-center">
+                      <i class="ni ni-badge text-lg text-warning mb-2"></i>
+                      <h6 class="mb-1">Clientes + Contactos</h6>
+                      <p class="text-sm text-muted">Exporta clientes con sus contactos. Selecciona el formato.</p>
+                      <div class="d-flex justify-content-center">
+                        <a href="{% url 'exportar_clientes_contactos' %}?modo=filas" class="btn btn-sm btn-warning me-2">En Filas</a>
+                        <a href="{% url 'exportar_clientes_contactos' %}?modo=columnas" class="btn btn-sm btn-outline-warning">En Columnas</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal para filtros -->
+        <div class="modal fade" id="filtroModal" tabindex="-1" aria-labelledby="filtroModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <form method="get" action="{% url 'exportar_excel' %}">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="filtroModalLabel">Filtros para el Reporte</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                  <div class="mb-3">
+                    <label for="fecha_inicio" class="form-label">Fecha inicio</label>
+                    <input type="date" class="form-control" name="fecha_inicio" required>
+                  </div>
+                  <div class="mb-3">
+                    <label for="fecha_fin" class="form-label">Fecha fin</label>
+                    <input type="date" class="form-control" name="fecha_fin" required>
+                  </div>
+                  <div class="mb-3">
+                    <label for="estado" class="form-label">Estado</label>
+                    <select class="form-select" name="estado">
+                      <option value="">Todos</option>
+                      <option value="Pendiente">Pendiente</option>
+                      <option value="Actualizado">Actualizado</option>
+                      <option value="No Ubicado">No Ubicado</option>
+                    </select>
+                  </div>
+                  <div class="mb-3">
+                    <label for="usuario_id" class="form-label">Usuario asignado</label>
+                    <select class="form-select" name="usuario_id">
+                      <option value="">Todos</option>
+                      {% for user in usuarios %}
+                        <option value="{{ user.id }}">{{ user.first_name }} {{ user.last_name }}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="submit" class="btn btn-success">Descargar Excel</button>
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <footer class="footer pt-3  ">
+        <div class="container-fluid">
+          <div class="row align-items-center justify-content-lg-between">
+            <div class="col-lg-6 mb-lg-0 mb-4">
+              <div class="copyright text-center text-sm text-muted text-lg-start">
+                © <script>
+                  document.write(new Date().getFullYear())
+                </script>,
+                hecho con <i class="fa fa-heart"></i> por
+                <a href="https://www.love.com" class="font-weight-bold" target="_blank">Andrés Romero y Chat GPT</a>
+                para la CCIT.
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+  </main>
+  <!--   Core JS Files   -->
+  <script src="{% static 'assets/js/core/popper.min.js' %}"></script>
+  <script src="{% static 'assets/js/core/bootstrap.min.js' %}"></script>
+  <script src="{% static 'assets/js/plugins/perfect-scrollbar.min.js' %}"></script>
+  <script src="{% static 'assets/js/plugins/smooth-scrollbar.min.js' %}"></script>
+  <script>
+    var win = navigator.platform.indexOf('Win') > -1;
+    if (win && document.querySelector('#sidenav-scrollbar')) {
+      var options = {
+        damping: '0.5'
+      }
+      Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+    }
+  </script>
+  <!-- Github buttons -->
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+  <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
+  <script src="{% static 'assets/js/argon-dashboard.min.js' %}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script>
+  {% if messages %}
+    {% for message in messages %}
+      {% if message.tags == 'success' %}
+        Swal.fire({
+          toast: true,
+          position: 'top-end',
+          icon: 'success',
+          title: '{{ message|escapejs }}',
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+          customClass: {
+            popup: 'swal2-toast'
+          }
+        });
+      {% elif message.tags == 'error' %}
+        Swal.fire({
+          icon: 'error',
+          title: '¡Error!',
+          text: '{{ message|escapejs }}',
+          confirmButtonText: 'Entendido'
+        });
+      {% elif message.tags == 'warning' %}
+        Swal.fire({
+          icon: 'warning',
+          title: 'Advertencia',
+          text: '{{ message|escapejs }}',
+          confirmButtonText: 'Ok'
+        });
+      {% else %}
+        Swal.fire({
+          icon: 'info',
+          title: 'Información',
+          text: '{{ message|escapejs }}',
+          confirmButtonText: 'Ok'
+        });
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+</script>
+</body>
+
+</html>

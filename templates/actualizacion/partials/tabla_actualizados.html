@@ -1,0 +1,50 @@
+{% load static %}
+                    {% for c in page_obj %}
+                    <tr>
+                      <td>
+                        <div class="d-flex px-2 py-1">
+                          <div>
+                            <img src="{% static 'assets/img/logo.png' %}" class="avatar avatar-sm me-3" alt="user1">
+                          </div>
+                          <div class="d-flex flex-column justify-content-center">
+                            <h6 class="mb-0 text-sm">
+                              <a href="{% url 'detalle_cliente' c.id %}">{{ c.nombre_empresa }}</a>
+                          </h6>
+                            <p class="text-xs text-secondary mb-0">{{ c.datos.correo }}</p>
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        <p class="text-xs text-secondary mb-0">{{ c.datos.direccion }}</p>
+                      </td>
+                      <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold">{{ c.datos.telefono }}</span>
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        {% if c.estado == 'Actualizado' %}
+                          <span class="badge badge-sm bg-gradient-success">Actualizado</span>
+                        {% elif c.estado == 'Pendiente' %}
+                          <span class="badge badge-sm bg-gradient-warning">Pendiente</span>
+                        {% elif c.estado == 'No Ubicado' %}
+                          <span class="badge badge-sm bg-gradient-secondary">No Ubicado</span>
+                        {% endif %}
+                      </td>
+                      <td class="align-middle">
+                        {% if c.estado == 'Pendiente' %}
+                        <a href="{% url 'detalle_cliente' c.id %}" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Ver Detalle">
+                          Procesar
+                        </a>
+                        {% elif c.estado == 'Actualizado' or c.estado == 'No Ubicado' %}
+                        <a href="{% url 'ver_detalle_cliente' c.id %}" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Ver Detalle">
+                          Ver
+                        </a>
+                        {% endif %}
+                      </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                      <td colspan="5" class="text-center">
+                        <span>No hay clientes asignados</span>
+                      </td>
+                    </tr>
+                    {% endfor %}

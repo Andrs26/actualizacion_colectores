@@ -1,0 +1,87 @@
+{% load static %}
+{% for c in page_obj %}
+    <tr>
+        <td>
+        <div class="d-flex px-2 py-1">
+            <div>
+            <img src="{% static 'assets/img/logo.png' %}" class="avatar avatar-sm me-3" alt="user1">
+            </div>
+            <div class="d-flex flex-column justify-content-center">
+            <h6 class="mb-0 text-sm">{{ c.nombre_empresa }}</h6>
+            <p class="text-xs text-secondary mb-0">{{ c.datos.correo }}</p>
+            </div>
+        </div>
+        </td>
+        <td>
+        <p class="text-xs text-secondary mb-0">{{ c.datos.direccion }}</p>
+        </td>
+        <td class="align-middle text-center">
+        <span class="text-secondary text-xs font-weight-bold">{{ c.datos.telefono }}</span>
+        </td>
+        <td class="align-middle text-center text-sm">
+        {% if c.estado == 'Actualizado' %}
+            <span class="badge badge-sm bg-gradient-success">Actualizado</span>
+        {% elif c.estado == 'Pendiente' %}
+            <span class="badge badge-sm bg-gradient-warning">Pendiente</span>
+        {% elif c.estado == 'No Ubicado' %}
+            <span class="badge badge-sm bg-gradient-secondary">No Ubicado</span>
+        {% endif %}
+        </td>
+        <td class="align-middle">
+            <button type="button" class="btn btn-sm btn-secondary" 
+                    data-bs-toggle="modal" 
+                    data-bs-target="#modalReasignar" 
+                    data-cliente-id="{{ c.id }}" 
+                    data-cliente-usuario="{{ cliente.usuario_asignado.get_full_name|default:'Sin asignar' }}">
+                <i class="fas fa-exchange-alt"></i>
+            </button>
+            <div class="modal fade" id="modalReasignar" tabindex="-1" aria-labelledby="modalReasignarLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <form method="post" action="{% url 'reasignar_cliente' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="cliente_id" id="modal-cliente-id">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <h5 class="modal-title">Reasignar Cliente</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                        </div>
+                        <div class="modal-body">
+                        <p>Asignado actualmente a: <strong id="modal-cliente-usuario"></strong></p>
+                        <div class="mb-3">
+                            <label for="nuevo_usuario" class="form-label">Nuevo Usuario</label>
+                            <select class="form-select" name="usuario_id" required>
+                            {% for usuario in usuarios_colectores %}
+                                <option value="{{ usuario.id }}">{{ usuario.get_full_name }}</option>
+                            {% endfor %}
+                            </select>
+                        </div>
+                        </div>
+                        <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Reasignar</button>
+                        </div>
+                    </div>
+                    </form>
+                </div>
+            </div>
+
+            <script>
+            const modal = document.getElementById('modalReasignar');
+            modal.addEventListener('show.bs.modal', function (event) {
+                const button = event.relatedTarget;
+                document.getElementById('modal-cliente-id').value = button.getAttribute('data-cliente-id');
+                document.getElementById('modal-cliente-usuario').innerText = button.getAttribute('data-cliente-usuario');
+            });
+            </script>
+            
+            <a href="{% url 'ver_detalle_cliente_admin' c.id %}" class="btn btn-dark btn-sm text-white font-weight-bold" data-toggle="tooltip" data-original-title="Ver Detalle">
+                Ver cliente
+            </a>
+        </td>
+    </tr>
+    {% empty %}
+    <tr>
+        <td colspan="5" class="text-center">
+        <span>No hay clientes asignados</span>
+        </td>
+    </tr>
+{% endfor %}
